@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import FieldItem from './FieldItem';
 
 const Field = (props) => {
@@ -19,6 +19,14 @@ const Field = (props) => {
     return range
   }
   // const arr = fieldItemStep();
+  const counter = useRef();
+  counter.current = 0;
+  const renderCounts = useEffect(() => {
+    counter.current++;
+    // console.log('Ренедер FieldItem '+ props.number + counter.current + 'раз')
+    console.log(`Ренедер Field ${counter.current} раз`)
+   
+  })
   return (
     <div className='field'>
       {props.snake.map((item, index) => <FieldItem foodRange={rangeArr()[index]} snake={props.onClick} setSnakeInPos={props.setSnakeInPos} number={index} snakeIn={item.snakeIn} key={item.id}/>)}

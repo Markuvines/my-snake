@@ -4,13 +4,14 @@ import './styles/App.css'
 import Field from './components/Field';
 import Button from './components/Button';
 //let timerId = null;
-export const context = createContext();
+import Context from './contexts/context';
+
 function App() {
 let options = {
   speed: 500,
 };
 
-const [foodRange, setfoodRange] = useState(Math.random()) 
+const [foodRange, setfoodRange] = useState() 
 const putFoodIn = useEffect(() => {}, [foodRange])
 
 let timerId = useRef()
@@ -60,7 +61,7 @@ let timerId = useRef()
     //   setSnakeInPos(snakeInPos + 1);
     //   move = setTimeout(tick, 1000);
     // }, 1000)
-  
+  setfoodRange(Math.random())
   }
 function stop () {
   console.log(timerId.current);
@@ -166,7 +167,7 @@ function stop () {
   // console.log(fieldItemStep());
 
   return (
-    <context.Provider value={snakeInPos}>
+    <Context.Provider value={{foodRange}}>
       <div tabIndex='0' onKeyDown={(e) => changeDirection(e)} className="App">
         {/* <button className='button' onClick={() => moveRight()}>{right}</button>
         <button className='button' onClick={() => moveLeft()}>{left}</button>
@@ -182,8 +183,8 @@ function stop () {
         <button className='button' onClick={() => stop()}>Stop!!!</button>
         <Field onClick={getSnakeIn} setSnakeInPos={snakeInPos} snake={initArr}/>
       </div>
-    </context.Provider>
+    </Context.Provider>
   );
 }
-
+//export const Cntext = createContext();
 export default App;
