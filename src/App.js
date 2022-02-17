@@ -10,7 +10,7 @@ function App() {
 let options = {
   speed: 500,
 };
-
+const [snake,setSnake] = useState([])
 const [foodRange, setfoodRange] = useState() 
 const putFoodIn = useEffect(() => {}, [foodRange])
 
@@ -167,7 +167,7 @@ function stop () {
   // console.log(fieldItemStep());
 
   return (
-    <Context.Provider value={{foodRange}}>
+    <Context.Provider value={{foodRange, setfoodRange}}>
       <div tabIndex='0' onKeyDown={(e) => changeDirection(e)} className="App">
         {/* <button className='button' onClick={() => moveRight()}>{right}</button>
         <button className='button' onClick={() => moveLeft()}>{left}</button>

@@ -12,12 +12,13 @@ const FieldItem = props => {
   //   ++counter.current
   //   console.log(`Ренедер FieldItem ${props.number} ${counter.current} раз`)
   // })
- const snakeFodd = useContext(Context);
+ const snakeFood = useContext(Context);
+ 
+// console.log (snakeFood)
   return (
     <div className="fieldItem" onClick={() => props.snake(props.number)}>
       {props.setSnakeInPos === props.number && <Snake/>}
-      {(snakeFodd.foodRange > props.foodRange.from && snakeFodd.foodRange < props.foodRange.to && <Food/>)}
-      {/* {props.number} */}
+      {(snakeFood.foodRange > props.foodRange.from && snakeFood.foodRange < props.foodRange.to) && <Food foodPos={props.foodRange.position} snakePos={props.setSnakeInPos} />}
     </div>
   );
 };

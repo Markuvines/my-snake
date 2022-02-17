@@ -18,7 +18,7 @@ const Field = (props) => {
     }
     return range
   }
-  // const arr = fieldItemStep();
+  const getRangeArr = rangeArr();
   const counter = useRef();
   counter.current = 0;
   const renderCounts = useEffect(() => {
@@ -29,7 +29,7 @@ const Field = (props) => {
   })
   return (
     <div className='field'>
-      {props.snake.map((item, index) => <FieldItem foodRange={rangeArr()[index]} snake={props.onClick} setSnakeInPos={props.setSnakeInPos} number={index} snakeIn={item.snakeIn} key={item.id}/>)}
+      {props.snake.map((item, index) => <FieldItem foodRange={(() => {getRangeArr[index].position = index; return getRangeArr[index]})()} snake={props.onClick} setSnakeInPos={props.setSnakeInPos} number={index} snakeIn={item.snakeIn} key={item.id}/>)}
     </div>
   );
 };

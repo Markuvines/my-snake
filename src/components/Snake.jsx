@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Snake = () => {
+const Snake = props => {
+  //console.log(props.children)
   return (
     <div className='snakeHead'></div>
   );
