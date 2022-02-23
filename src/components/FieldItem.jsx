@@ -13,11 +13,12 @@ const FieldItem = props => {
   //   console.log(`Ренедер FieldItem ${props.number} ${counter.current} раз`)
   // })
  const snakeFood = useContext(Context);
- 
+ console.log('snakeItem was rendered')
+ //console.log(snakeFood.snake)
 // console.log (snakeFood)
   return (
     <div className="fieldItem" onClick={() => props.snake(props.number)}>
-      {props.setSnakeInPos === props.number && <Snake/>}
+      {snakeFood.snake.some(item => item === props.number) && <Snake/>}
       {(snakeFood.foodRange > props.foodRange.from && snakeFood.foodRange < props.foodRange.to) && <Food foodPos={props.foodRange.position} snakePos={props.setSnakeInPos} />}
     </div>
   );

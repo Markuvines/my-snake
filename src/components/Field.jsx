@@ -24,7 +24,7 @@ const Field = (props) => {
   const renderCounts = useEffect(() => {
     counter.current++;
     // console.log('Ренедер FieldItem '+ props.number + counter.current + 'раз')
-    console.log(`Ренедер Field ${counter.current} раз`)
+    //console.log(`Ренедер Field ${counter.current} раз`)
    
   })
   return (

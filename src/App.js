@@ -1,18 +1,70 @@
-import React, { useRef, useState, useEffect, createContext } from 'react';
+import React, { useRef, useState, useEffect, useReducer } from 'react';
 import './App.css';
 import './styles/App.css'
 import Field from './components/Field';
 import Button from './components/Button';
-//let timerId = null;
 import Context from './contexts/context';
+
+// let options = {
+//   speed: 1000,
+// };
+
+// function reducer(state, action) {
+//   switch(action.type) {
+//     case 'moveRight': {
+//      // clearInterval(timerId);
+//      let arrGlob
+//      let timerId = setInterval(() => {
+//         //stop();
+//        let arr = snakeMove(state);
+       
+//           if(!((arr[0] + 1) % 5)) {
+//             arr[0] = arr[0] - 4
+//           } else {
+//             arr[0] = arr[0] + 1
+//           }
+//         arrGlob = arr;
+//         console.log(arrGlob);
+//     }, options.speed);
+//     return arrGlob;
+//     }
+//   }
+// }
+
+// function stop (timerId) {
+//   //console.log(timerId.current);
+//   clearInterval(timerId.current);
+// }
+
+
+// const snakeMove = (arr) => {
+//   let array = arr;
+//   for (let i = arr.length; i > 1; --i) {
+//     arr[i - 1] = arr[i -2];
+//   }
+//  return array;
+  
+// }
 
 function App() {
 let options = {
-  speed: 500,
+  speed: 1000,
 };
-const [snake,setSnake] = useState([])
+
+const [snakeInPos, setSnakeInPos] = useState(2);
+const [snake,setSnake] = useState([2, 1, 0])
 const [foodRange, setfoodRange] = useState() 
-const putFoodIn = useEffect(() => {}, [foodRange])
+const prevSnake = useRef();
+//const [snake, dispatch] = useReducer(reducer, [2, 1, 0])
+console.log(`snakeInPos glob ${snakeInPos}`)
+ useEffect(() => {
+ console.log('RENDER!')
+ //start()
+  //prevSnakeHeadPos.current = snakeInPos;
+  //console.log(prevSnakeHeadPos.current)
+}, [snakeInPos])
+prevSnake.current = snake;
+
 
 let timerId = useRef()
   const getInitArr = () => {
@@ -25,31 +77,33 @@ let timerId = useRef()
     }
     return arr
   }
-  const [snakeInPos, setSnakeInPos] = useState();
+  //let snakePos = useEffect(() => console.log(snakeInPos),[snakeInPos])
   const initArr = getInitArr();
-  //const [snake, setSnake] = useState(initArr);
-
   const getSnakeIn = id => {
     setSnakeInPos(id);
-    
-    
-    // let arr = initArr;
-    // arr[id].snakeIn = true;
-    // setSnake([...arr]);
-    //console.log(snakeInPos);
+   // setSnake([...snake, id])
   }
   
-  function start () {
+function start () {
+    
    timerId.current = setInterval(() => {
         //console.log(timerId);
-        setSnakeInPos((prev) => {
-          if(!((prev + 1) % 5)) {
-            setSnakeInPos(prev - 4)
+        //prevSnakeHeadPos.current = snakeInPos;
+        snakeMove();
+        
+          if(!((prevSnake.current[0] + 1) % 5)) {
+            prevSnake.current[0] = (prevSnake.current[0] - 4)
           } else {
-            setSnakeInPos(prev + 1)
+            prevSnake.current[0] = (prevSnake.current[0] + 1)
           }
-        });
-    }, options.speed);
+          console.log(prevSnake.current)
+          
+        setSnake([...prevSnake.current])
+        
+        //stop()
+       // console.log(snake)
+  }, options.speed);
+  
     // (function (snakepPos) {
     // setInterval(() => {
     //   console.log('first :' + snakepPos);
@@ -82,15 +136,31 @@ function stop () {
   const moveRight = () => {
     stop();
     timerId.current = setInterval(() => {
-      setSnakeInPos((prev) => {
-        if(!((prev + 1) % 5)) {
-          setSnakeInPos(prev - 4)
-        } else {
-          setSnakeInPos(prev + 1)
-        }
-      });
+      snakeMove();
+        
+          if(!((prevSnake.current[0] + 1) % 5)) {
+            prevSnake.current[0] = (prevSnake.current[0] - 4)
+          } else {
+            prevSnake.current[0] = (prevSnake.current[0] + 1)
+          }
+          console.log(prevSnake.current)
+          
+        setSnake([...prevSnake.current])
   }, options.speed);
   }
+
+  // const moveRight = () => {
+  //   stop();
+  //   timerId.current = setInterval(() => {
+  //     setSnakeInPos((prev) => {
+  //       if(!((prev + 1) % 5)) {
+  //         setSnakeInPos(prev - 4)
+  //       } else {
+  //         setSnakeInPos(prev + 1)
+  //       }
+  //     });
+  // }, options.speed);
+  // }
 
   // const moveRight = () => {
   //   if(!((snakeInPos + 1) % 5)) {
@@ -99,18 +169,38 @@ function stop () {
   //     setSnakeInPos(snakeInPos + 1)
   //   }
   // }
+
   const moveLeft = () => {
     stop();
+    
     timerId.current = setInterval(() => {
-      setSnakeInPos((prev) => {
-        if(!(prev % 5)) {
-          setSnakeInPos(prev + 4)
-        } else {
-          setSnakeInPos(prev - 1)
-        }
-      });
+      snakeMove();
+        
+      if(!((prevSnake.current[0]) % 5)) {
+        prevSnake.current[0] = (prevSnake.current[0] + 4)
+      } else {
+        prevSnake.current[0] = (prevSnake.current[0] - 1)
+      }
+      console.log(prevSnake.current)
+      
+    setSnake([...prevSnake.current])
+
+     
   }, options.speed);
   }
+
+  // const moveLeft = () => {
+  //   stop();
+  //   timerId.current = setInterval(() => {
+  //     setSnakeInPos((prev) => {
+  //       if(!(prev % 5)) {
+  //         setSnakeInPos(prev + 4)
+  //       } else {
+  //         setSnakeInPos(prev - 1)
+  //       }
+  //     });
+  // }, options.speed);
+  // }
 
 
   // const moveLeft = () => {
@@ -120,16 +210,35 @@ function stop () {
   //     setSnakeInPos(snakeInPos - 1)
   //   }
   // }
+
+  // const moveUp = () => {
+  //   stop();
+  //   timerId.current = setInterval(() => {
+  //     setSnakeInPos((prev) => {
+  //       if (prev < 5) {
+  //         setSnakeInPos(prev + 20)
+  //       } else {
+  //         setSnakeInPos(prev - 5)
+  //       }
+  //     });
+  // }, options.speed);
+  // }
+
   const moveUp = () => {
     stop();
     timerId.current = setInterval(() => {
-      setSnakeInPos((prev) => {
-        if (prev < 5) {
-          setSnakeInPos(prev + 20)
-        } else {
-          setSnakeInPos(prev - 5)
-        }
-      });
+
+      snakeMove();
+      if(((prevSnake.current[0] - 5) < 0)) {
+        prevSnake.current[0] = (prevSnake.current[0] + 20)
+      } else {
+        prevSnake.current[0] = (prevSnake.current[0] - 5)
+      }
+      console.log(prevSnake.current)
+      
+    setSnake([...prevSnake.current])
+
+     
   }, options.speed);
   }
 
@@ -140,17 +249,48 @@ function stop () {
   //     setSnakeInPos(snakeInPos - 5)
   //   }
   // }
+
+
   const moveDown = () => {
+   
     stop();
     timerId.current = setInterval(() => {
-      setSnakeInPos((prev) => {
-        if (prev + 1 > 20) {
-          setSnakeInPos(prev - 20)
-        } else {
-          setSnakeInPos(prev + 5)
-        }
-      });
+      snakeMove();
+      if(((prevSnake.current[0] + 5) > 24)) {
+        prevSnake.current[0] = (prevSnake.current[0] - 20)
+      } else {
+        prevSnake.current[0] = (prevSnake.current[0] + 5)
+      }
+      console.log(prevSnake.current)
+      
+    setSnake([...prevSnake.current])
+
+    
   }, options.speed);
+  }
+  
+  // const moveDown = () => {
+   
+  //   stop();
+  //   timerId.current = setInterval(() => {
+  //     setSnakeInPos((prev) => {
+  //       if (prev + 1 > 20) {
+  //         setSnakeInPos(prev - 20)
+  //       } else {
+  //         setSnakeInPos(prev + 5)
+  //       }
+  //     });
+  // }, options.speed);
+  // }
+  const snakeMove = () => {
+    //let arr = array;
+   // console.log(`snakeInPos inSnakeMove ${snakeInPos}`)
+    for (let i = prevSnake.current.length; i > 1; --i) {
+      prevSnake.current[i - 1] = prevSnake.current[i -2];
+    }
+   // arr[0] = prevSnakeHeadPos.current;
+   // setSnake(arr)
+    
   }
   // const moveDown = () => {
   //   if(snakeInPos > 20) {
@@ -164,17 +304,9 @@ function stop () {
   const left = '<-'
  
  
-  // console.log(fieldItemStep());
-
   return (
-    <Context.Provider value={{foodRange, setfoodRange}}>
+    <Context.Provider value={{foodRange, setfoodRange, snake}}>
       <div tabIndex='0' onKeyDown={(e) => changeDirection(e)} className="App">
-        {/* <button className='button' onClick={() => moveRight()}>{right}</button>
-        <button className='button' onClick={() => moveLeft()}>{left}</button>
-        <button className='button' onClick={() => moveUp()}>Вверх</button>
-        <button className='button' onClick={() => moveDown()}>Вниз</button>
-        <button className='button' onClick={() => start()}>Start!!!</button>
-        <button className='button' onClick={() => stop()}>Stop!!!</button> */}
         <button className='button'>{right}</button>
         <button className='button' onClick={() => moveLeft()}>{left}</button>
         <button className='button' onClick={() => moveUp()}>Вверх</button>

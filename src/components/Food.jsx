@@ -5,7 +5,9 @@ const Food = props => {
   const [position, setPosition] = useState(0)
   const snakeFood = useContext(Context);
   if (props.foodPos === props.snakePos) {
-    snakeFood.setfoodRange(Math.random())
+   // snakeFood.setSnake([...snakeFood.snake, props.foodPos])
+   // snakeFood.setfoodRange(Math.random())
+   
   }
   return (
     <div className='food'></div>

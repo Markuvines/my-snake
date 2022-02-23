@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
+import Context from '../contexts/context';
 
 const Snake = props => {
-  //console.log(props.children)
+  const prevLastPos = useRef();
+  const {snake} = useContext(Context);
+  prevLastPos.current = snake[snake.length - 1]
   return (
     <div className='snakeHead'></div>
   );
